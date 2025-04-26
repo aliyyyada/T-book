@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm
-from .scrapers import searchWiki, search_litres
+from .scrapers import searchWiki, searchOpenlibrary
 from .models import Book
 import django
 
@@ -9,7 +9,7 @@ def index(request):
     books = []
     if form.is_valid():
         q = form.cleaned_data['query']
-        raw = searchWiki(q)
+        raw = searchWiki(q) + searchOpenlibrary(q)
 
         for item in raw:
             book, created = Book.objects.get_or_create(

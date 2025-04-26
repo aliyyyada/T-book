@@ -2,21 +2,24 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Book Service</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>{% block title %}T-Book{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-  <section class="section">
-    <div class="container">
-      <h1 class="title"><a href="{% url 'books:index' %}">Book Service</a></h1>
-      <nav class="navbar">
-        <div class="navbar-menu">
-          <a class="navbar-item" href="{% url 'books:index' %}">Поиск</a>
-          <a class="navbar-item" href="{% url 'books:favorites' %}">Избранное</a>
-        </div>
-      </nav>
-      {% block content %}{% endblock %}
-    </div>
-  </section>
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container d-flex justify-content-between">
+    <a class="navbar-brand" href="/">T-Book</a>
+    <a class="nav-link text-light" href="{% url 'books:favorites' %}">Избранное</a>
+  </div>
+</nav>
+
+<div class="container py-4">
+  {% block content %}
+  {% endblock %}
+</div>
+
 </body>
 </html>

@@ -27,7 +27,7 @@ def searchWiki(query, limit=5):
         html = page.get('parse', {}).get('text', {}).get('*', '')
         soup = BeautifulSoup(html, 'html.parser')
         p=soup.find('p')
-        summary = p.get_text().strip if p else ''
+        summary = p.get_text().strip() if p else ''
 
         info = soup.find('table', {'class': 'infobox'})
         year = None
@@ -60,9 +60,26 @@ def searchWiki(query, limit=5):
         })
     return result
 
-def search_litres(query, limit=5):
-    """
-    Заглушка: аналогично можно реализовать через парсинг HTML litres.ru
-    """
-    # TODO: расширить под реальный парсинг LitRes
+def searchOpenlibrary(query, limit=5):
+    search_api_url = "https://openlibrary.org/search.json"
+    params = {"q": query}
+    response = requests.get(search_api_url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        docs = data.get('docs', [])
+        if not docs:
+            return []
+
+        results = []
+        for book_data in docs[:limit]:
+            results.append({
+                'external_id': f"openlibrary-{book_data.get('key', '').replace('/works/', '')}",
+                'title': book_data.get('title', 'Без названия'),
+                'author': book_data.get('author_name', ['Неизвестен'])[0],
+                'year': book_data.get('first_publish_year'),
+                'genre': 'Неизвестно',
+                'summary': '',
+            })
+        return results
     return []
