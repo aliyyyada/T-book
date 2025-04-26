@@ -1,0 +1,29 @@
+{% extends 'books/base.html' %}
+{% block content %}
+  <form method="get">
+    {{ form.as_p }}
+    <button class="button is-link">Искать</button>
+  </form>
+
+  {% if books %}
+    <h2 class="subtitle">Результаты:</h2>
+    <div class="columns is-multiline">
+      {% for book in books %}
+        <div class="column is-half">
+          <div class="box">
+            <h3 class="title is-5">{{ book.title }}</h3>
+            <p><strong>Автор:</strong> {{ book.author }}</p>
+            <p><strong>Год:</strong> {{ book.year }}</p>
+            <p><strong>Жанр:</strong> {{ book.genre }}</p>
+            <p>{{ book.summary|truncatechars:200 }}</p>
+            {% if book.pk in favorites %}
+              <button class="button is-small is-danger" disabled>В избранном</button>
+            {% else %}
+              <a href="{% url 'books:add_favorite' book.pk %}" class="button is-small is-primary">Добавить в избранное</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

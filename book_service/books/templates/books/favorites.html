@@ -1,0 +1,22 @@
+{% extends 'books/base.html' %}
+{% block content %}
+  <h2 class="subtitle">Моё избранное:</h2>
+  {% if books %}
+    <div class="columns is-multiline">
+      {% for book in books %}
+        <div class="column is-half">
+          <div class="box">
+            <h3 class="title is-5">{{ book.title }}</h3>
+            <p><strong>Автор:</strong> {{ book.author }}</p>
+            <p><strong>Год:</strong> {{ book.year }}</p>
+            <p><strong>Жанр:</strong> {{ book.genre }}</p>
+            <p>{{ book.summary|truncatechars:200 }}</p>
+            <a href="{% url 'books:remove_favorite' book.pk %}" class="button is-small is-danger">Удалить</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>У вас ещё нет избранных книг.</p>
+  {% endif %}
+{% endblock %}
