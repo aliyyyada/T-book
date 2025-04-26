@@ -41,7 +41,7 @@ def searchWiki(query, limit=5):
                     continue
                 key = th.get_text().lower()
                 val = td.get_text().strip()
-                if 'год' in key:
+                if 'дата' in key:
                     try:
                         year=int(val.strip()[:4])
                     except:
@@ -53,7 +53,7 @@ def searchWiki(query, limit=5):
         result.append({
             'external_id': f"wikipedia-{pageid}",
             'title': title,
-            'aithor': author,
+            'author': author,
             'year': year,
             'genre': genre,
             'summary': summary,

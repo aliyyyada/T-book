@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SearchForm
 from .scrapers import searchWiki, search_litres
 from .models import Book
+import django
 
 def index(request):
     form = SearchForm(request.GET or None)
@@ -29,6 +30,7 @@ def index(request):
         'books': books,
         'favorites': fav_ids,
     }
+
     return render(request, 'books/index.html', context)
 
 def add_favorite(request, pk):
@@ -48,4 +50,4 @@ def remove_favorite(request, pk):
 def favorites(request):
     fav = request.session.get('favorites', [])
     books = Book.objects.filter(pk__in=fav)
-    return render(request, 'books/favorites', {'books': books})
+    return render(request, 'books/favorites.html', {'books': books})
